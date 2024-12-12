@@ -6,12 +6,14 @@ using Business.Models;
 
 public static class ContactEntityFactory
 {
-    
-    public static ContactEntity Create(ContactModel contact, IGenerateUniqeId generateId)
+   
+
+    public static ContactEntity Create(ContactModel contact, IGenerateUniqeId generateUniqeId)
     {
+ 
         return new ContactEntity
         {
-            Id = generateId.GenerateId(),
+            Id = generateUniqeId.GenerateId(),
             FirstName = contact.FirstName,
             LastName = contact.LastName,
             Email = contact.Email,

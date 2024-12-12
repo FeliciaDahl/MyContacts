@@ -10,9 +10,8 @@ var host = Host.CreateDefaultBuilder()
     {
         services.AddSingleton<IFileService, FileService>();
         services.AddSingleton<IContactService, ContactService>();
-        services.AddSingleton<IContactService, ContactService>();
         services.AddSingleton<IMenuDialog, MenuDialog>();
-        services.AddSingleton<IGenerateUniqeId, GenerateUniqeId>(); 
+        services.AddSingleton<IGenerateUniqeId, GenerateUniqeId>();
     })
     .Build();
 

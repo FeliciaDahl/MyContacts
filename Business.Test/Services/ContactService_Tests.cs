@@ -11,11 +11,12 @@ public class ContactService_Tests
 {
     private readonly Mock<IFileService> _fileServiceMock;
     private readonly IContactService _contactService;
-    
+    private readonly Mock<IGenerateUniqeId> _generateUniqeIdMock;
     public ContactService_Tests()
     {
         _fileServiceMock = new Mock<IFileService>();
-        _contactService = new ContactService(_fileServiceMock.Object);
+        _generateUniqeIdMock = new Mock<IGenerateUniqeId>();
+        _contactService = new ContactService(_fileServiceMock.Object, _generateUniqeIdMock.Object);
     }
 
     [Fact]

@@ -1,16 +1,24 @@
 ﻿
 using Business.Entites;
 using Business.Helpers;
+using Business.Interfaces;
 using Business.Models;
+using Moq;
 
 namespace Business.Test.Factories;
 
 public class ContactEntityFactory_Tests
 {
     [Fact]
-    public void Create_FromContactModel_ShouldReturnContactEntityWithProperties()
+    public void Create_FromContactModel_ShouldReturnContactEntityWithPropertiesAndId()
     {
         // arrange
+        var mockIdGenerator = new Mock<IGenerateUniqeId>();
+        var Id = "TestId";
+        mockIdGenerator
+            .Setup(generate => generate.GenerateId())
+            .Returns(Id);
+
         var contact = new ContactModel
         {
          
@@ -24,12 +32,11 @@ public class ContactEntityFactory_Tests
         };
 
         // act
-        var entity = ContactEntityFactory.Create(contact);
+        var entity = ContactEntityFactory.Create(contact, mockIdGenerator.Object);
 
         // assert
         Assert.NotNull(entity);
-        Assert.Equal(contact.Id, entity.Id);
-        Assert.Equal(contact.FirstName, entity.FirstName);
+        Assert.Equal(Id, entity.Id);
         Assert.Equal(contact.LastName, entity.LastName);
         Assert.Equal(contact.Email, entity.Email);
         Assert.Equal(contact.Phone, entity.Phone);
@@ -57,18 +64,18 @@ public class ContactEntityFactory_Tests
         };
 
         // Act
-        var contact = ContactEntityFactory.Create(entity);
+        var contactM = ContactEntityFactory.Create(entity);
 
         // Assert
-        Assert.NotNull(contact);
-        Assert.Equal(entity.Id, contact.Id);
-        Assert.Equal(entity.FirstName, contact.FirstName);
-        Assert.Equal(entity.LastName, contact.LastName);
-        Assert.Equal(entity.Email, contact.Email);
-        Assert.Equal(entity.Phone, contact.Phone);
-        Assert.Equal(entity.Address, contact.Address);
-        Assert.Equal(entity.PostalCode, contact.PostalCode);
-        Assert.Equal(entity.City, contact.City);
+        Assert.NotNull(contactM);
+        Assert.Equal(entity.Id, contactM.Id);
+        Assert.Equal(entity.FirstName, contactM.FirstName);
+        Assert.Equal(entity.LastName, contactM.LastName);
+        Assert.Equal(entity.Email, contactM.Email);
+        Assert.Equal(entity.Phone, contactM.Phone);
+        Assert.Equal(entity.Address, contactM.Address);
+        Assert.Equal(entity.PostalCode, contactM.PostalCode);
+        Assert.Equal(entity.City, contactM.City);
     }
 }
 
