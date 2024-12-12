@@ -3,6 +3,7 @@ using Business.Services;
 using Presentation.ConsoleApp.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Business.Helpers;
 
 var host = Host.CreateDefaultBuilder()
     .ConfigureServices(services =>
@@ -11,6 +12,7 @@ var host = Host.CreateDefaultBuilder()
         services.AddSingleton<IContactService, ContactService>();
         services.AddSingleton<IContactService, ContactService>();
         services.AddSingleton<IMenuDialog, MenuDialog>();
+        services.AddSingleton<IGenerateUniqeId, GenerateUniqeId>(); 
     })
     .Build();
 

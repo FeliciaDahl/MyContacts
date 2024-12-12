@@ -10,8 +10,8 @@ public class ContactEntityFactory_Tests
     [Fact]
     public void Create_FromContactModel_ShouldReturnContactEntityWithProperties()
     {
-        // Arrange
-        var model = new ContactModel
+        // arrange
+        var contact = new ContactModel
         {
          
             FirstName = "TestFirstName",
@@ -23,20 +23,20 @@ public class ContactEntityFactory_Tests
             City = "GBG"
         };
 
-        // Act
-        var entity = ContactEntityFactory.Create(model);
+        // act
+        var entity = ContactEntityFactory.Create(contact);
 
-        // Assert
+        // assert
         Assert.NotNull(entity);
-        Assert.Equal(model.Id, entity.Id);
-        Assert.Equal(model.FirstName, entity.FirstName);
-        Assert.Equal(model.LastName, entity.LastName);
-        Assert.Equal(model.Email, entity.Email);
-        Assert.Equal(model.Phone, entity.Phone);
-        Assert.Equal(model.Address, entity.Address);
-        Assert.Equal(model.PostalCode, entity.PostalCode);
-        Assert.Equal(model.City, entity.City);
-        Assert.NotEqual(default(DateTime), entity.CreatedDate); // CreatedDate ska inte vara default
+        Assert.Equal(contact.Id, entity.Id);
+        Assert.Equal(contact.FirstName, entity.FirstName);
+        Assert.Equal(contact.LastName, entity.LastName);
+        Assert.Equal(contact.Email, entity.Email);
+        Assert.Equal(contact.Phone, entity.Phone);
+        Assert.Equal(contact.Address, entity.Address);
+        Assert.Equal(contact.PostalCode, entity.PostalCode);
+        Assert.Equal(contact.City, entity.City);
+        Assert.NotEqual(default(DateTime), entity.CreatedDate); 
     }
 
     [Fact]
@@ -57,18 +57,18 @@ public class ContactEntityFactory_Tests
         };
 
         // Act
-        var model = ContactEntityFactory.Create(entity);
+        var contact = ContactEntityFactory.Create(entity);
 
         // Assert
-        Assert.NotNull(model);
-        Assert.Equal(entity.Id, model.Id);
-        Assert.Equal(entity.FirstName, model.FirstName);
-        Assert.Equal(entity.LastName, model.LastName);
-        Assert.Equal(entity.Email, model.Email);
-        Assert.Equal(entity.Phone, model.Phone);
-        Assert.Equal(entity.Address, model.Address);
-        Assert.Equal(entity.PostalCode, model.PostalCode);
-        Assert.Equal(entity.City, model.City);
+        Assert.NotNull(contact);
+        Assert.Equal(entity.Id, contact.Id);
+        Assert.Equal(entity.FirstName, contact.FirstName);
+        Assert.Equal(entity.LastName, contact.LastName);
+        Assert.Equal(entity.Email, contact.Email);
+        Assert.Equal(entity.Phone, contact.Phone);
+        Assert.Equal(entity.Address, contact.Address);
+        Assert.Equal(entity.PostalCode, contact.PostalCode);
+        Assert.Equal(entity.City, contact.City);
     }
 }
 
