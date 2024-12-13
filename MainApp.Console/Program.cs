@@ -8,10 +8,11 @@ using Business.Helpers;
 var host = Host.CreateDefaultBuilder()
     .ConfigureServices(services =>
     {
-        services.AddSingleton<IFileService, FileService>();
+        services.AddSingleton<IFileService>(new FileService("Data", "contactlist.json"));
         services.AddSingleton<IContactService, ContactService>();
-        services.AddSingleton<IMenuDialog, MenuDialog>();
         services.AddSingleton<IGenerateUniqeId, GenerateUniqeId>();
+        services.AddTransient<IMenuDialog, MenuDialog>();
+
     })
     .Build();
 

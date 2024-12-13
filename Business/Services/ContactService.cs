@@ -4,18 +4,26 @@ using Business.Factories;
 using Business.Helpers;
 using Business.Interfaces;
 using Business.Models;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text.Json;
 
 namespace Business.Services;
 
-public class ContactService(IFileService fileService, IGenerateUniqeId generateId) : IContactService
-
+public class ContactService : IContactService
     
 {
-    private readonly IFileService _fileService = fileService;
-    private readonly IGenerateUniqeId _generateId = generateId;
+    private readonly IFileService _fileService;
+    private readonly IGenerateUniqeId _generateId;
+    private readonly JsonSerializerOptions _jsonOptions;
     private List<ContactEntity> _contacts = [];
-    
+
+    public ContactService(IFileService fileService, IGenerateUniqeId generateId, JsonSerializerOptions jsonOptions)
+    {
+        _fileService = fileService;
+        _generateId = generateId;
+        _jsonOptions = new JsonSerializerOptions { WriteIndented = true };
+    }
 
     public bool AddContact(ContactModel contact)
     {
@@ -23,7 +31,9 @@ public class ContactService(IFileService fileService, IGenerateUniqeId generateI
         {
             var contactEntity = ContactEntityFactory.Create(contact, _generateId);
             _contacts.Add(contactEntity);
-            _fileService.SaveListToFile(_contacts);
+
+            var json = JsonSerializer.Serialize(_contacts, _jsonOptions);
+            _fileService.SaveListToFile(json);
 
             return true;
         }
@@ -36,8 +46,16 @@ public class ContactService(IFileService fileService, IGenerateUniqeId generateI
 
     public IEnumerable<Contact> GetAll()
     {
-        _contacts = _fileService.LoadListFromFile();
-        return _contacts.Select(contact => ContactEntityFactory.Create(contact));
+        try
+        {
+            var json = _fileService.LoadListFromFile();
+
+            _contacts = JsonSerializer.Deserialize<List<ContactEntity>>(json, _jsonOptions) ?? [];
+
+            return _contacts.Select(contact => ContactEntityFactory.Create(contact));
+        }
+        catch { return []; }
+
     }
 }
     

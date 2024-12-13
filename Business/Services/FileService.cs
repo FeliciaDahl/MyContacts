@@ -10,46 +10,44 @@ public class FileService : IFileService
 {
     private readonly string _directoryPath;
     private readonly string _filePath;
-    private readonly JsonSerializerOptions _jsonOptions;
+    
 
-    public FileService(string directoryPath = "Data", string fileName = "list.json")
+    public FileService(string directoryPath, string fileName)
     {
         _directoryPath = directoryPath;
         _filePath = Path.Combine(_directoryPath, fileName);
-        _jsonOptions = new JsonSerializerOptions { WriteIndented = true };
+       
     }
 
-    public void SaveListToFile(List<ContactEntity> list)
+    public bool SaveListToFile(string content)
     {
         try
         {
             if (!Directory.Exists(_directoryPath))
                 Directory.CreateDirectory(_directoryPath);
 
-            var json = JsonSerializer.Serialize(list, _jsonOptions);
-            File.WriteAllText(_filePath, json);
+       
+            File.WriteAllText(_filePath, content);
+            return true;
         }
 
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
+            return false;
         }
     }
-    public List<ContactEntity> LoadListFromFile()
+    public string LoadListFromFile()
     {
         try
         {
-            if (!File.Exists(_filePath))
-                return [];
+            if (File.Exists(_filePath))
 
-            var json = File.ReadAllText(_filePath);
-            var list = JsonSerializer.Deserialize<List<ContactEntity>>(json, _jsonOptions);
-            return list ?? [];
+                return File.ReadAllText(_filePath);
         }
-        catch (Exception ex)
+        catch { return null!; }
         {
-            Debug.WriteLine(ex.Message);
-            return [];
+            return null!;
         }
     }
 }
