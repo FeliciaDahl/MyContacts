@@ -1,10 +1,7 @@
-﻿using Business.Entites;
-
-namespace Business.Interfaces
+﻿namespace Business.Interfaces
 {
-    public interface IFileService
+    public interface IFileService : IFileReader,IFileWriter
     {
-        List<ContactEntity> LoadListFromFile();
-        void SaveListToFile(List<ContactEntity> list);
+       
     }
 }

@@ -13,8 +13,9 @@ public class ContactService(IFileService fileService, IGenerateUniqeId generateI
     
 {
     private readonly IFileService _fileService = fileService;
-    private List<ContactEntity> _contacts = [];
     private readonly IGenerateUniqeId _generateId = generateId;
+    private List<ContactEntity> _contacts = [];
+    
 
     public bool AddContact(ContactModel contact)
     {
@@ -33,7 +34,7 @@ public class ContactService(IFileService fileService, IGenerateUniqeId generateI
         }
     }
 
-    public IEnumerable<ContactModel> GetAll()
+    public IEnumerable<Contact> GetAll()
     {
         _contacts = _fileService.LoadListFromFile();
         return _contacts.Select(contact => ContactEntityFactory.Create(contact));

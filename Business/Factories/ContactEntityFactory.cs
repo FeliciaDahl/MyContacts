@@ -25,9 +25,9 @@ public static class ContactEntityFactory
         };
     }
 
-    public static ContactModel Create(ContactEntity entity)
+    public static Contact Create(ContactEntity entity)
     {
-        return new ContactModel
+        return new Contact
         {
             Id = entity.Id,
             FirstName = entity.FirstName,
