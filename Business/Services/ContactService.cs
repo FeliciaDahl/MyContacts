@@ -30,10 +30,10 @@ public class ContactService : IContactService
         try
         {
             var contactEntity = ContactEntityFactory.Create(contact, _generateId);
-            _contacts.Add(contactEntity);
-
+           
             var json = JsonSerializer.Serialize(_contacts, _jsonOptions);
             _fileService.SaveListToFile(json);
+            _contacts.Add(contactEntity);
 
             return true;
         }
@@ -54,7 +54,11 @@ public class ContactService : IContactService
 
             return _contacts.Select(contact => ContactEntityFactory.Create(contact));
         }
-        catch { return []; }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            return Enumerable.Empty<Contact>();
+        }
 
     }
 }

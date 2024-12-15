@@ -45,9 +45,12 @@ public class FileService : IFileService
 
                 return File.ReadAllText(_filePath);
         }
-        catch { return null!; }
+        catch (Exception ex)
         {
+            Debug.WriteLine(ex.Message);
             return null!;
         }
+
+        return null!;
     }
 }

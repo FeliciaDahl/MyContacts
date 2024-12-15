@@ -16,7 +16,7 @@ public class ContactModel
     [Required(ErrorMessage = "Email is required.")]
     [EmailAddress(ErrorMessage = "Invalid email format.")] 
     public string Email { get; set; } = null!;
-
+   
     [Required(ErrorMessage = "Phone number is required.")]
     [Phone(ErrorMessage = "Invalid phone number format.")]
     public string Phone { get; set; } = null!;

@@ -45,5 +45,17 @@ public class FileService_Tests
     public void LoadListFromFile_ShouldReturnContentFromFile()
     {
 
+        //arrange
+        var content = "Test content";
+      
+        _fileServiceMock.Setup(fs => fs.LoadListFromFile())
+            .Returns(content);
+
+        //act
+        var result = _fileServiceMock.Object.LoadListFromFile();
+
+        //assert
+        Assert.Equal(content, result);
+        _fileServiceMock.Verify(fs => fs.LoadListFromFile(), Times.Once);
     }
 }

@@ -9,6 +9,7 @@ public class GenerateUniqeId_Tests
     [Fact]
     public void GenerateId_ShouldReturnStringOfTypeGuid()
     {
+        //arrage
         var idGenerator = new GenerateUniqeId();
 
         //act

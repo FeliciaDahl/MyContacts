@@ -49,7 +49,7 @@ public class ContactEntityFactory_Tests
     [Fact]
     public void Create_FromContactEntity_ShouldReturnContactModelWithProperties()
     {
-        // Arrange
+        // arrange
         var entity = new ContactEntity
         {
           
@@ -63,10 +63,10 @@ public class ContactEntityFactory_Tests
             CreatedDate = DateTime.Now
         };
 
-        // Act
+        // act
         var contactM = ContactEntityFactory.Create(entity);
 
-        // Assert
+        // assert
         Assert.NotNull(contactM);
         Assert.Equal(entity.Id, contactM.Id);
         Assert.Equal(entity.FirstName, contactM.FirstName);
