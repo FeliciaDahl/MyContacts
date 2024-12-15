@@ -7,5 +7,6 @@
         void QuitOption();
         void Run();
         void ShowContactList();
+        string GetValidatedInput(string prompt, string properyName);
     }
 }

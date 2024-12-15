@@ -1,6 +1,8 @@
 ﻿
 using Business.Factories;
 using Business.Interfaces;
+using Business.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace Presentation.ConsoleApp.Dialogs;
 
@@ -57,36 +59,55 @@ public class MenuDialog(IContactService contactService) : IMenuDialog
         var contact = ContactFactory.Create();
 
         Console.Clear();
-        Console.WriteLine("Enter first name : ");
-        contact.FirstName = Console.ReadLine()!;
 
-        Console.WriteLine("Enter last name : ");
-        contact.LastName = Console.ReadLine()!;
+        contact.FirstName = GetValidatedInput("Enter first name :", nameof(contact.FirstName));
 
-        Console.WriteLine("Enter email : ");
-        contact.Email = Console.ReadLine()!;
 
-        Console.WriteLine("Enter phonenumber : ");
-        contact.Phone = Console.ReadLine()!;
+        contact.LastName = GetValidatedInput("Enter last name :", nameof(contact.LastName));
 
-        Console.WriteLine("Enter andress : ");
-        contact.Address = Console.ReadLine()!;
 
-        Console.WriteLine("Enter postalcode : ");
-        contact.PostalCode = Console.ReadLine()!;
+        contact.Email = GetValidatedInput("Enter email :", nameof(contact.Email));
 
-        Console.WriteLine("Enter city : ");
-        contact.City = Console.ReadLine()!;
+
+        contact.Phone = GetValidatedInput("Enter phone number :", nameof(contact.Phone));
+
+
+        contact.Address = GetValidatedInput("Enter address :", nameof(contact.Address));
+
+
+        contact.PostalCode = GetValidatedInput("Enter postal code :", nameof(contact.PostalCode));
+
+
+        contact.City = GetValidatedInput("Enter city :", nameof(contact.City));
 
         bool result = _contactService.AddContact(contact);
 
         if (result)
-            OutputDialog("User was created");
+            OutputDialog("Contact was created");
         else
-            OutputDialog("We could not create a user, please try again");
+            OutputDialog("We could not create a contact, please try again");
 
         Console.ReadKey();
     }
+
+    public string GetValidatedInput(string prompt, string properyName)
+    {
+        while (true) 
+        {
+            Console.WriteLine();
+            Console.WriteLine(prompt);
+            var input = Console.ReadLine() ?? string.Empty;
+
+            var results = new List<ValidationResult>();
+            var context = new ValidationContext(new ContactModel()) { MemberName = properyName };
+
+            if (Validator.TryValidateProperty(input, context, results))
+                return input;
+            Console.WriteLine($"{results[0].ErrorMessage}");
+        }
+
+    }
+
 
     public void ShowContactList()
     {
@@ -123,6 +144,7 @@ public class MenuDialog(IContactService contactService) : IMenuDialog
         }
     }
 
+   
 
     public void OutputDialog(string message)
     {

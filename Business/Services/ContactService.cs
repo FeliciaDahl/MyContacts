@@ -22,7 +22,7 @@ public class ContactService : IContactService
     {
         _fileService = fileService;
         _generateId = generateId;
-        _jsonOptions = new JsonSerializerOptions { WriteIndented = true };
+        _jsonOptions = jsonOptions;
     }
 
     public bool AddContact(ContactModel contact)
@@ -30,10 +30,11 @@ public class ContactService : IContactService
         try
         {
             var contactEntity = ContactEntityFactory.Create(contact, _generateId);
-           
+           _contacts.Add(contactEntity);
+
             var json = JsonSerializer.Serialize(_contacts, _jsonOptions);
             _fileService.SaveListToFile(json);
-            _contacts.Add(contactEntity);
+            
 
             return true;
         }
